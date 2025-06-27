@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Our Little Love Adventure 💖</title>
@@ -16,7 +17,7 @@
       color: #e91e63;
       font-size: 2em;
     }
-    .start-btn, .choice-btn, .quiz-btn, .reply-btn, .surprise-btn {
+    button {
       background: #ff4081;
       border: none;
       color: white;
@@ -26,9 +27,7 @@
       margin: 10px;
       cursor: pointer;
     }
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
     .message-box {
       margin: 20px auto;
       padding: 20px;
@@ -53,26 +52,33 @@
 </head>
 <body>
   <h1>🐾 Our Little Love Adventure 🐾</h1>
-  <button class="start-btn" onclick="startStory()">Start</button>
+  <button onclick="startStory()">Start</button>
+
   <div id="story" class="hidden">
     <div class="message-box" id="message"></div>
-    <div id="choices"></div>
+
     <div id="replyBox" class="hidden">
       <input id="loveReply" placeholder="Say something..." />
-      <button class="reply-btn" onclick="checkReply()">Send</button>
+      <button onclick="checkReply()">Send</button>
+      <p id="replyResult"></p>
     </div>
+
     <div id="quizBox" class="hidden">
       <p>What's my favorite thing about you?</p>
-      <button class="quiz-btn" onclick="quizAnswer('smile')">Your Smile</button>
-      <button class="quiz-btn" onclick="quizAnswer('talk')">Your Talks</button>
-      <button class="quiz-btn" onclick="quizAnswer('all')">Everything 💖</button>
+      <button onclick="quizAnswer('smile')">Your Smile</button>
+      <button onclick="quizAnswer('talk')">Your Talks</button>
+      <button onclick="quizAnswer('all')">Everything 💖</button>
+      <p id="quizResult"></p>
     </div>
+
     <div id="surpriseBox" class="hidden">
       <p>🎁 Click for a Surprise</p>
-      <button class="surprise-btn" onclick="showSurprise()">Open Box</button>
+      <button onclick="showSurprise()">Open Box</button>
       <p id="surpriseMsg"></p>
     </div>
-  </div>  <script>
+  </div>
+
+  <script>
     let msgIndex = 0;
     const messages = [
       "Hey Unnati, Happy 1st Month Anniversary 💗",
@@ -89,55 +95,57 @@
       "You're the sunshine to my every cloudy day ☀️",
       "You're cuter than every emoji combined 🐰🐶🐥",
       "You have the prettiest heart I've ever known 💓",
-      "Selfishly, I want to be your last first kiss, your last love story, and the one who gets to call you mine forever."
+      "Selfishly, I want to be your last first kiss, your last love story, and the one who gets to call you mine forever. 💌"
     ];
 
     function startStory() {
-      document.querySelector('.start-btn').classList.add('hidden');
-      document.getElementById('story').classList.remove('hidden');
+      document.querySelector("button").style.display = "none";
+      document.getElementById("story").classList.remove("hidden");
       showMessage();
     }
 
     function showMessage() {
       if (msgIndex < messages.length) {
-        document.getElementById('message').innerText = messages[msgIndex];
-        if (msgIndex === messages.length - 1) {
-          document.getElementById('replyBox').classList.remove('hidden');
-        }
+        document.getElementById("message").innerText = messages[msgIndex];
         msgIndex++;
+        setTimeout(showMessage, 2000);
+      } else {
+        document.getElementById("replyBox").classList.remove("hidden");
       }
     }
 
     function checkReply() {
-      const reply = document.getElementById('loveReply').value.trim().toLowerCase();
-      if (reply.includes("love you too")) {
-        document.getElementById('message').innerText = "Awww that's the best thing I've heard today 💞";
-        document.getElementById('replyBox').classList.add('hidden');
-        document.getElementById('quizBox').classList.remove('hidden');
+      const input = document.getElementById("loveReply").value.toLowerCase().trim();
+      const result = document.getElementById("replyResult");
+      if (input.includes("i love you too")) {
+        result.innerText = "Awww, that’s exactly what I wanted to hear! 💖";
+        document.getElementById("replyBox").classList.add("hidden");
+        document.getElementById("quizBox").classList.remove("hidden");
       } else {
-        alert("Try saying something sweeter 😛");
+        result.innerText = "Hmm... that's not the magical phrase! Try again 😉";
       }
     }
 
     function quizAnswer(ans) {
-      document.getElementById('quizBox').classList.add('hidden');
-      document.getElementById('message').innerText = "I knew you'd pick that! You know me so well 😍";
-      document.getElementById('surpriseBox').classList.remove('hidden');
+      document.getElementById("quizResult").innerText = "I knew you'd pick that! You know me so well 😍";
+      document.getElementById("quizBox").classList.add("hidden");
+      document.getElementById("surpriseBox").classList.remove("hidden");
     }
 
     function showSurprise() {
-      const pick = surprises[Math.floor(Math.random() * surprises.length)];
-      document.getElementById('surpriseMsg').innerText = pick;
+      const random = surprises[Math.floor(Math.random() * surprises.length)];
+      document.getElementById("surpriseMsg").innerText = random;
     }
 
     // Floating hearts
     setInterval(() => {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.innerText = '💗';
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 4000);
-    }, 500);
-  </script></body>
+    }, 600);
+  </script>
+</body>
 </html>
